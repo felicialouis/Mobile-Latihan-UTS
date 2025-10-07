@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "731514346155",
+    "project_id": "latihan-authentication-uts",
+    "storage_bucket": "latihan-authentication-uts.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731514346155:android:bfbb0cc4c98551de9cb5ee",
+        "android_client_info": {
+          "package_name": "edu.uph.m23si3.latihanauthentication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaqd0rAahszcg8xVpuwXLm0oAJ4oAI9Do"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
