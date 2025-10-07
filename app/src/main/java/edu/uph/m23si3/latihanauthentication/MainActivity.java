@@ -23,7 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnLogout;
+    Button btnLogout, btnList;
     TextView txvWelcome;
     private FirebaseAuth mAuth;
 
@@ -47,6 +47,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnList = findViewById(R.id.btnList);
+        btnList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                toList();
+            }
+        });
+
         txvWelcome = findViewById(R.id.txvWelcome);
 
         readData();
@@ -57,21 +66,24 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void toList(){
+        Intent intent = new Intent(this, ListActivity.class);
+        startActivity(intent);
+    }
+
     public void readData(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance(); // ambil user yang login
+
         db.collection("students")
+                .whereEqualTo("Email", auth.getCurrentUser().getEmail())
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                txvWelcome.setText("Welcome, " + document.get("Nama").toString());
-                                Log.d("Student", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w("Student", "Error getting documents.", task.getException());
-                        }
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        String nama = queryDocumentSnapshots.getDocuments().get(0).getString("Nama");
+                        txvWelcome.setText("Welcome, " + nama);
+                    } else {
+                        txvWelcome.setText("Welcome, User");
                     }
                 });
     }
